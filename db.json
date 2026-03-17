@@ -1,0 +1,27 @@
+{
+  "invoice": [
+    {
+      "id": "INV-2024-001",
+      "customer_id": "cust-01",
+      "status": "paid",
+      "amount": 2450000,
+      "due_date": "2024-12-31",
+      "items": [
+        {
+          "name": "Compute 4vCPU",
+          "qty": 30,
+          "unit": "days",
+          "price": 50000
+        }
+      ]
+    }
+  ],
+  "customers": [
+    {
+      "id": "cust-01",
+      "name": "PT Maju Bersama",
+      "email": "finance@majubersama.co.id",
+      "plan": "business"
+    }
+  ]
+}
