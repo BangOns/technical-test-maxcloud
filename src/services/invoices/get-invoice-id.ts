@@ -2,6 +2,6 @@ import api from "@/lib/axios";
 import { Invoice } from "../../../types/api-types";
 
 export const getInvoiceById = async (id: string): Promise<Invoice> => {
-  const { data } = await api.get(`/invoices/${id}`);
-  return data;
+  const { data } = await api.get(`/api/invoices/${id}`);
+  return data.data;
 };

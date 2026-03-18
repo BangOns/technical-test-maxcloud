@@ -1,8 +1,9 @@
 import { QueryClient } from "@tanstack/react-query";
+import toast from "react-hot-toast";
 
 // Fungsi global untuk handle error
-const globalErrorHandler = (error: unknown) => {
-  console.error("React Query Error:", error);
+const globalErrorHandler = () => {
+  toast.error("Something went wrong");
 };
 
 export const queryClient = new QueryClient({

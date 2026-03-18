@@ -3,7 +3,7 @@ import { getInvoiceById } from "@/services/invoices/get-invoice-id";
 
 export const useInvoiceById = (id: string) => {
   return useQuery({
-    queryKey: ["invoices", id],
+    queryKey: ["invoice", id],
     queryFn: () => getInvoiceById(id),
     enabled: !!id,
   });

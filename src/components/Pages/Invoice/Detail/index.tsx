@@ -14,6 +14,7 @@ import InvoiceTableDetail from "@/components/feature/Invoice/Detail/InvoiceTable
 import LoadingState from "@/components/shared/LoadingState";
 import EmptyState from "@/components/shared/EmptyState";
 import InvoiceHeaderDetail from "@/components/feature/Invoice/Detail/InvoiceHeaderDetail";
+import toast from "react-hot-toast";
 
 export default function InvoiceDetailPage() {
   const { id } = useParams<{ id: string }>();
@@ -27,13 +28,6 @@ export default function InvoiceDetailPage() {
     invoice?.customer_id || "",
   );
 
-  // const payMutation = useMutation({
-  //   mutationFn: () => updateInvoice(id, { status: "paid" }),
-  //   onSuccess: () => {
-  //     queryClient.invalidateQueries({ queryKey: ["invoice", id] });
-  //     queryClient.invalidateQueries({ queryKey: ["invoices"] });
-  //   },
-  // });
   const payMutation = useUpdateInvoice();
 
   if (isInvoiceLoading || isCustomerLoading)
@@ -46,13 +40,16 @@ export default function InvoiceDetailPage() {
         description="Invoice not found"
       />
     );
-
+  function handlePDF() {
+    toast.success("Invoice downloaded successfully");
+  }
   return (
     <div className="space-y-6 max-w-5xl mx-auto">
       <InvoiceHeaderDetail
         invoice={invoice}
         handlePayMutation={() => payMutation.mutate(invoice)}
         statusPayMutation={payMutation.isPending}
+        handlePDF={handlePDF}
       />
 
       <div className="grid gap-6 md:grid-cols-2">

@@ -5,7 +5,7 @@ export interface InvoiceItem {
   price: number;
 }
 
-export type InvoiceStatus = "paid" | "unpaid" | "overdue";
+export type InvoiceStatus = "paid" | "unpaid" | "overdue" | "draft";
 
 export interface Invoice {
   id: string;
@@ -21,4 +21,18 @@ export interface Customer {
   name: string;
   email: string;
   plan: string;
+}
+
+export interface apiResponse<T> {
+  data: T;
+  message: string;
+  success: boolean;
+  meta: {
+    page?: number;
+    limit?: number;
+    total?: number;
+    totalPages?: number;
+    hasNextPage?: boolean;
+    hasPrevPage?: boolean;
+  };
 }

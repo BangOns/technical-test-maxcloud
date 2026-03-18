@@ -5,17 +5,52 @@ export const invoiceItemSchema = z.object({
     message: "Service name is required",
   }),
 
-  qty: z.number().min(1, {
-    message: "Quantity must be at least 1",
-  }),
+  qty: z
+    .number()
+    .min(1, {
+      message: "Quantity must be at least 1",
+    })
+    .refine(
+      (value) => {
+        return value > 0;
+      },
+      {
+        message: "Quantity must be greater than 0",
+      },
+    ),
 
-  unit: z.string().min(1, {
-    message: "Unit is required",
-  }),
+  unit: z
+    .string()
+    .min(1, {
+      message: "Unit is required",
+    })
+    .refine(
+      (value) => {
+        return (
+          value === "days" ||
+          value === "hours" ||
+          value === "months" ||
+          value === "years"
+        );
+      },
+      {
+        message: "Unit must be days, hours, months, or years",
+      },
+    ),
 
-  price: z.number().min(0, {
-    message: "Price cannot be negative",
-  }),
+  price: z
+    .number()
+    .min(0, {
+      message: "Price cannot be negative",
+    })
+    .refine(
+      (value) => {
+        return value > 0;
+      },
+      {
+        message: "Price must be greater than 0",
+      },
+    ),
 });
 
 export const invoiceSchema = z.object({
@@ -23,9 +58,20 @@ export const invoiceSchema = z.object({
     message: "Customer is required",
   }),
 
-  due_date: z.string().min(1, {
-    message: "Due date is required",
-  }),
+  due_date: z
+    .string()
+    .min(1, {
+      message: "Due date is required",
+    })
+    .refine(
+      (value) => {
+        const date = new Date(value);
+        return date >= new Date();
+      },
+      {
+        message: "Due date must be in the future",
+      },
+    ),
 
   items: z.array(invoiceItemSchema).min(1, {
     message: "At least one invoice item is required",

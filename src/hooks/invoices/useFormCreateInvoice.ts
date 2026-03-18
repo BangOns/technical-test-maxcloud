@@ -1,6 +1,6 @@
 import { InvoiceFormValues, invoiceSchema } from "@/schema/invoice.schema";
 
-import { useForm } from "react-hook-form";
+import { useFieldArray, useForm, useWatch } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 
 export function useFormCreateInvoice() {
@@ -19,11 +19,23 @@ export function useFormCreateInvoice() {
       ],
     },
   });
-
+  const formArray = useFieldArray({
+    control: form.control,
+    name: "items",
+  });
+  const watchItems = useWatch({
+    control: form.control,
+    name: "items",
+  });
   return {
     register: form.register,
     handleSubmit: form.handleSubmit,
     errors: form.formState.errors,
     control: form.control,
+    formArray,
+    append: formArray.append,
+    remove: formArray.remove,
+    fields: formArray.fields,
+    watch: watchItems,
   };
 }
