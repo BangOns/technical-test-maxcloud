@@ -75,7 +75,7 @@ yarn dev
 ## Environtmen Varaibel
 ```bash
 #env.local
-NEXT_PUBLIC_API_URL=http://localhost:3000/api
+NEXT_PUBLIC_API_URL=http://localhost:3000
 ```
 
 ## Teknologi yang Digunakan
