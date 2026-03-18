@@ -1,5 +1,5 @@
 import api from "@/lib/axios";
-import { getInvoiceById } from "./get-invoice-id";
+import { getInvoiceById } from "./get-invoice-by-id";
 
 export const getInvoiceWithCustomer = async (id: string) => {
   const invoiceRes = await getInvoiceById(id);

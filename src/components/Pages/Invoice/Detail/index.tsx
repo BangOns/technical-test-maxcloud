@@ -4,7 +4,7 @@ import { useParams } from "next/navigation";
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
-import { useUpdateInvoice } from "@/hooks/invoices/useInvoiceUpdateData";
+import { useUpdateInvoice } from "@/hooks/invoices/mutation/useUpdateInvoice";
 import { Customer } from "../../../../../types/data-types";
 import InvoiceCustomerCard from "@/components/feature/Invoice/Detail/InvoiceCustomerCard";
 import InvoiceSummaryCard from "@/components/feature/Invoice/Detail/InvoiceSummaryCard";
@@ -13,7 +13,7 @@ import LoadingState from "@/components/shared/LoadingState";
 import EmptyState from "@/components/shared/EmptyState";
 import InvoiceHeaderDetail from "@/components/feature/Invoice/Detail/InvoiceHeaderDetail";
 import toast from "react-hot-toast";
-import { useInvoiceWithCustomer } from "@/hooks/invoices/useInvoiceWithCustomer";
+import { useInvoiceWithCustomer } from "@/hooks/invoices/queries/useInvoiceWithCustomer";
 
 export default function InvoiceDetailPage() {
   const { id } = useParams<{ id: string }>();

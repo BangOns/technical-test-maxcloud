@@ -1,5 +1,5 @@
 import api from "@/lib/axios";
-import { Invoice } from "../../../types/data-types";
+import { Invoice } from "../../../../types/data-types";
 
 export const createInvoice = async (
   invoice: Partial<Invoice>,

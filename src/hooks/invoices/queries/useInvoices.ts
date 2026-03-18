@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import { getInvoices } from "@/services/invoices/get-invoice";
+import { getInvoices } from "@/services/invoices/queries/get-invoice";
 
 export const useInvoices = (
   page: number = 1,

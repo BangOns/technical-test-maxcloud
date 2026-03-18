@@ -19,25 +19,9 @@ export const invoiceItemSchema = z.object({
       },
     ),
 
-  unit: z
-    .string()
-    .min(1, {
-      message: "Unit is required",
-    })
-    .refine(
-      (value) => {
-        return (
-          value === "days" ||
-          value === "hours" ||
-          value === "months" ||
-          value === "years"
-        );
-      },
-      {
-        message: "Unit must be days, hours, months, or years",
-      },
-    ),
-
+  unit: z.string().min(1, {
+    message: "Unit is required",
+  }),
   price: z
     .number()
     .min(0, {

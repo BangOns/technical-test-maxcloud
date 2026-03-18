@@ -1,6 +1,6 @@
 "use client";
 
-import { useInvoices } from "@/hooks/invoices/useInvoices";
+import { useInvoices } from "@/hooks/invoices/queries/useInvoices";
 import LoadingState from "@/components/shared/LoadingState";
 import EmptyState from "@/components/shared/EmptyState";
 import { useInvoiceStore } from "@/store/invoice-store";
@@ -10,9 +10,9 @@ import InvoiceTable from "@/components/feature/Invoice/InvoiceTable";
 import InvoiceHeader from "@/components/feature/Invoice/InvoiceHeader";
 import InvoiceToolbar from "@/components/feature/Invoice/InvoiceToolbar";
 import { useSearchParams } from "next/navigation";
-import { useInvoiceSearch } from "@/hooks/invoices/useInvoiceSearch";
+import { useInvoiceSearch } from "@/hooks/invoices/ui/useInvoiceSearch";
 import { sortInvoices } from "@/utils/sort";
-import { useInvoiceFilterStatus } from "@/hooks/invoices/useInvoiceFilterStatus";
+import { useInvoiceFilterStatus } from "@/hooks/invoices/ui/useInvoiceFilterStatus";
 import { useMemo } from "react";
 const filteredInvoice = ["all", "paid", "unpaid", "overdue", "draft"];
 export default function InvoiceListPage() {

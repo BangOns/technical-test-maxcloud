@@ -4,7 +4,7 @@ import { Receipt, AlertCircle, Clock, DollarSign } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
 import { buttonVariants } from "@/components/ui/button";
-import { useInvoices } from "@/hooks/invoices/useInvoices";
+import { useInvoices } from "@/hooks/invoices/queries/useInvoices";
 import LoadingState from "@/components/shared/LoadingState";
 import Link from "next/link";
 import ProductCard from "@/components/feature/Dashboard/ProductCard";
