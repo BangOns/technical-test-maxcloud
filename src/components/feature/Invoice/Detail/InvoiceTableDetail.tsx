@@ -7,7 +7,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { formatCurrency } from "@/utils/formatCurrency";
-import { Invoice } from "../../../../../types/api-types";
+import { Invoice } from "../../../../../types/data-types";
 
 export default function InvoiceTableDetail({ invoice }: { invoice: Invoice }) {
   return (

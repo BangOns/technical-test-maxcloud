@@ -1,5 +1,5 @@
 import { isPast, isThisMonth, parseISO } from "date-fns";
-import { Invoice } from "../../types/api-types";
+import { Invoice } from "../../types/data-types";
 
 export function calculateDashboardSummary(invoices: Invoice[]) {
   const totalInvoicesThisMonth = invoices.filter((inv) =>

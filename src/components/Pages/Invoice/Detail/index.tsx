@@ -4,41 +4,26 @@ import { useParams } from "next/navigation";
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
-import { useInvoiceById } from "@/hooks/invoices/useInvoiceById";
-import { useCustomerById } from "@/hooks/customers/useCutomerById";
-import { useUpdateInvoice } from "@/hooks/invoices/useUpdateInvoice";
-import { Customer } from "../../../../../types/api-types";
+import { useUpdateInvoice } from "@/hooks/invoices/mutation/useUpdateInvoice";
+import { Customer } from "../../../../../types/data-types";
 import InvoiceCustomerCard from "@/components/feature/Invoice/Detail/InvoiceCustomerCard";
 import InvoiceSummaryCard from "@/components/feature/Invoice/Detail/InvoiceSummaryCard";
 import InvoiceTableDetail from "@/components/feature/Invoice/Detail/InvoiceTableDetail";
 import LoadingState from "@/components/shared/LoadingState";
 import EmptyState from "@/components/shared/EmptyState";
 import InvoiceHeaderDetail from "@/components/feature/Invoice/Detail/InvoiceHeaderDetail";
+import toast from "react-hot-toast";
+import { useInvoiceWithCustomer } from "@/hooks/invoices/queries/useInvoiceWithCustomer";
 
 export default function InvoiceDetailPage() {
   const { id } = useParams<{ id: string }>();
 
-  const {
-    data: invoice,
-    isLoading: isInvoiceLoading,
-    isError: isInvoiceError,
-  } = useInvoiceById(id);
-  const { data: customer, isLoading: isCustomerLoading } = useCustomerById(
-    invoice?.customer_id || "",
-  );
+  const { data, isLoading, isError } = useInvoiceWithCustomer(id);
 
-  // const payMutation = useMutation({
-  //   mutationFn: () => updateInvoice(id, { status: "paid" }),
-  //   onSuccess: () => {
-  //     queryClient.invalidateQueries({ queryKey: ["invoice", id] });
-  //     queryClient.invalidateQueries({ queryKey: ["invoices"] });
-  //   },
-  // });
   const payMutation = useUpdateInvoice();
 
-  if (isInvoiceLoading || isCustomerLoading)
-    return <LoadingState message="Loading Data" />;
-  if (isInvoiceError || !invoice)
+  if (isLoading) return <LoadingState message="Loading Data" />;
+  if (isError || !data)
     return (
       <EmptyState
         status="error"
@@ -46,19 +31,22 @@ export default function InvoiceDetailPage() {
         description="Invoice not found"
       />
     );
-
+  function handlePDF() {
+    toast.success("Invoice downloaded successfully");
+  }
   return (
     <div className="space-y-6 max-w-5xl mx-auto">
       <InvoiceHeaderDetail
-        invoice={invoice}
-        handlePayMutation={() => payMutation.mutate(invoice)}
+        invoice={data.invoice}
+        handlePayMutation={() => payMutation.mutate(data.invoice)}
         statusPayMutation={payMutation.isPending}
+        handlePDF={handlePDF}
       />
 
       <div className="grid gap-6 md:grid-cols-2">
-        <InvoiceCustomerCard customer={customer as Customer} />
+        <InvoiceCustomerCard customer={data.customer as Customer} />
 
-        <InvoiceSummaryCard invoice={invoice} />
+        <InvoiceSummaryCard invoice={data.invoice} />
       </div>
 
       <Card>
@@ -67,7 +55,7 @@ export default function InvoiceDetailPage() {
         </CardHeader>
         <CardContent>
           <div className="rounded-md border border-zinc-200">
-            <InvoiceTableDetail invoice={invoice} />
+            <InvoiceTableDetail invoice={data.invoice} />
           </div>
         </CardContent>
       </Card>

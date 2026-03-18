@@ -1,6 +1,5 @@
 "use client";
 
-import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -12,12 +11,11 @@ import {
   CardFooter,
 } from "@/components/ui/card";
 import { Plus, Trash2 } from "lucide-react";
-import { useCustomers } from "@/hooks/customers/useCustomers";
-import { InvoiceItem } from "../../../../../types/api-types";
-import { useCreateInvoice } from "@/hooks/invoices/useCreateInvoice";
-import { useFormCreateInvoice } from "@/hooks/invoices/useFormCreateInvoice";
+import { useCustomers } from "@/hooks/customers/queries/useCustomers";
+import { useCreateInvoice } from "@/hooks/invoices/mutation/useCreateInvoice";
+import { useFormCreateInvoice } from "@/hooks/invoices/form/useFormInvoice";
 import { InvoiceFormValues } from "@/schema/invoice.schema";
-import { Controller } from "react-hook-form";
+import { Controller, SubmitHandler } from "react-hook-form";
 import { FieldError, FieldGroup, FieldLabel } from "@/components/ui/field";
 import {
   Select,
@@ -28,51 +26,37 @@ import {
   SelectGroup,
   SelectLabel,
 } from "@/components/ui/select";
-
+import { generateInvoiceId } from "@/utils/generateInvoiceId";
+const unit = ["days", "hours", "months", "years"];
 export default function FormCreateInvoice() {
   const router = useRouter();
-  const { handleSubmit, control } = useFormCreateInvoice();
+  const { handleSubmit, control, append, remove, fields, watch } =
+    useFormCreateInvoice();
   const { data: customers = [] } = useCustomers();
-
-  const [items, setItems] = useState<InvoiceItem[]>([
-    { name: "", qty: 1, unit: "days", price: 0 },
-  ]);
 
   const createMutation = useCreateInvoice();
 
   const handleAddItem = () => {
-    setItems([...items, { name: "", qty: 1, unit: "days", price: 0 }]);
+    append({ name: "", qty: 1, unit: "days", price: 1 });
   };
 
   const handleRemoveItem = (index: number) => {
-    setItems(items.filter((_, i) => i !== index));
+    remove(index);
   };
 
   const calculateTotal = () => {
-    return items.reduce((sum, item) => sum + item.qty * item.price, 0);
+    return watch.reduce((sum, item) => sum + item.qty * item.price, 0);
   };
 
-  // const handleSubmit = (e: InvoiceFormValues) => {
-  // e.preventDefault();
-  // if (!customerId || !dueDate || items.length === 0) {
-  //   alert("Please fill in all required fields.");
-  //   return;
-  // }
-  // const totalAmount = calculateTotal();
-  // createMutation.mutate({
-  //   id: `INV-${new Date().getFullYear()}-${Math.floor(Math.random() * 10000)
-  //     .toString()
-  //     .padStart(4, "0")}`,
-  //   customer_id: customerId,
-  //   status: "unpaid",
-  //   amount: totalAmount,
-  //   due_date: dueDate,
-  //   items: items,
-  // });
-  // };
-  const onSubmit = (values: InvoiceFormValues) => {
-    console.log(values);
-    // createMutation.mutate(values);
+  const onSubmit: SubmitHandler<InvoiceFormValues> = (values) => {
+    createMutation.mutate({
+      id: generateInvoiceId(),
+      customer_id: values.customer_id,
+      status: "unpaid",
+      amount: Number(calculateTotal()),
+      due_date: values.due_date,
+      items: values.items,
+    });
   };
 
   return (
@@ -86,6 +70,7 @@ export default function FormCreateInvoice() {
             </CardHeader>
             <CardContent className="space-y-4">
               <div className="grid gap-4 md:grid-cols-2">
+                {/* Customer */}
                 <Controller
                   control={control}
                   name="customer_id"
@@ -130,6 +115,7 @@ export default function FormCreateInvoice() {
                     );
                   }}
                 />
+                {/* Due Date */}
                 <Controller
                   control={control}
                   name="due_date"
@@ -165,7 +151,7 @@ export default function FormCreateInvoice() {
               </Button>
             </CardHeader>
             <CardContent className="space-y-4">
-              {items.map((item, index) => (
+              {fields.map((item, index) => (
                 <div
                   key={index}
                   className="flex flex-col sm:flex-row gap-4 items-end bg-zinc-50 p-4 rounded-lg border border-zinc-100"
@@ -206,7 +192,9 @@ export default function FormCreateInvoice() {
                           {...field}
                           id={`items.${index}.qty`}
                           value={field.value}
-                          onChange={field.onChange}
+                          onChange={(e) =>
+                            field.onChange(Number(e.target.value))
+                          }
                           type="number"
                           placeholder="0"
                           required
@@ -226,13 +214,31 @@ export default function FormCreateInvoice() {
                         <FieldLabel className="text-sm font-medium">
                           Unit
                         </FieldLabel>
-                        <Input
-                          placeholder="days, hours..."
+                        <Select
                           {...field}
-                          id={`items.${index}.unit`}
                           value={field.value}
+                          onValueChange={field.onChange}
                           required
-                        />
+                        >
+                          <SelectTrigger className="flex h-10 w-full rounded-md border border-zinc-200 bg-white px-3 py-2 text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-zinc-950">
+                            <SelectValue placeholder="Select a unit...">
+                              {field.value}
+                            </SelectValue>
+                          </SelectTrigger>
+                          <SelectContent>
+                            <SelectGroup>
+                              <SelectLabel>Unit</SelectLabel>
+                              {unit.map((item, index) => {
+                                return (
+                                  <SelectItem key={index} value={item}>
+                                    {item}
+                                  </SelectItem>
+                                );
+                              })}
+                            </SelectGroup>
+                          </SelectContent>
+                        </Select>
+
                         {fieldState.invalid && (
                           <FieldError errors={[fieldState.error]} />
                         )}
@@ -253,6 +259,9 @@ export default function FormCreateInvoice() {
                           id={`items.${index}.price`}
                           type="number"
                           value={field.value}
+                          onChange={(e) =>
+                            field.onChange(Number(e.target.value))
+                          }
                           placeholder="0"
                           required
                         />
@@ -268,7 +277,7 @@ export default function FormCreateInvoice() {
                     size="icon"
                     className="text-red-500 hover:text-red-700 hover:bg-red-50 disabled:cursor-not-allowed hover:cursor-pointer"
                     onClick={() => handleRemoveItem(index)}
-                    disabled={items.length === 1}
+                    disabled={fields.length === 1}
                   >
                     <Trash2 className="h-5 w-5" />
                   </Button>

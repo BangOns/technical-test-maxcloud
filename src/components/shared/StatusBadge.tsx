@@ -1,4 +1,4 @@
-import { InvoiceStatus } from "../../../types/api-types";
+import { InvoiceStatus } from "../../../types/data-types";
 import { Badge } from "../ui/badge";
 
 export default function GetStatusBadge({ status }: { status: InvoiceStatus }) {

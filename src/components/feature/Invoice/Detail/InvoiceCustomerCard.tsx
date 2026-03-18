@@ -1,5 +1,5 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Customer } from "../../../../../types/api-types";
+import { Customer } from "../../../../../types/data-types";
 
 export default function InvoiceCustomerCard({
   customer,

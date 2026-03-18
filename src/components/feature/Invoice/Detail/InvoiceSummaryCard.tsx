@@ -1,7 +1,7 @@
 import GetStatusBadge from "@/components/shared/StatusBadge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { formatCurrency } from "@/utils/formatCurrency";
-import { Invoice } from "../../../../../types/api-types";
+import { Invoice } from "../../../../../types/data-types";
 
 export default function InvoiceSummaryCard({ invoice }: { invoice: Invoice }) {
   return (
