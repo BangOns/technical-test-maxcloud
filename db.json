@@ -1,5 +1,5 @@
 {
-  "invoice": [
+  "invoices": [
     {
       "id": "INV-2024-001",
       "customer_id": "cust-01",
@@ -14,6 +14,21 @@
           "price": 50000
         }
       ]
+    },
+    {
+      "id": "INV-2026-2807",
+      "customer_id": "cust-01",
+      "status": "paid",
+      "amount": 22,
+      "due_date": "2026-03-05",
+      "items": [
+        {
+          "name": "121",
+          "qty": 11,
+          "unit": "days",
+          "price": 2
+        }
+      ]
     }
   ],
   "customers": [
@@ -23,5 +38,6 @@
       "email": "finance@majubersama.co.id",
       "plan": "business"
     }
-  ]
+  ],
+  "$schema": "./node_modules/json-server/schema.json"
 }
