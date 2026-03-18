@@ -84,6 +84,7 @@ NEXT_PUBLIC_API_URL=http://localhost:3000/api
 * TypeScript – Typing system untuk JavaScript
 * Tailwind CSS – Styling komponen
 * TanStack Query – Data fetching dan state management untuk API
+* React Hook Form - library untuk mengelola form
 * Zod – Validasi schema form
 
 ## Cara Contribution
