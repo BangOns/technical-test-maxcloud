@@ -1,7 +1,7 @@
 import { NextRequest } from "next/server";
 import { customers, invoices } from "../../../../../data";
 import { apiError, apiResponse } from "@/lib/api-response";
-import { Invoice } from "../../../../../types/api-types";
+import { Invoice } from "../../../../../types/data-types";
 
 export async function GET(
   request: NextRequest,

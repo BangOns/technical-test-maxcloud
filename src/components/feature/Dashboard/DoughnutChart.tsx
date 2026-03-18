@@ -1,4 +1,4 @@
-import { Invoice } from "../../../../types/api-types";
+import { Invoice } from "../../../../types/data-types";
 import { isPast, parseISO } from "date-fns";
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
 import { Doughnut } from "react-chartjs-2";

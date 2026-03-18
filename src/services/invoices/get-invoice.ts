@@ -1,5 +1,6 @@
 import api from "@/lib/axios";
-import { Invoice, apiResponse } from "../../../types/api-types";
+import { Invoice } from "../../../types/data-types";
+import { apiResponse } from "../../../types/api-types";
 
 export const getInvoices = async (
   page: number = 1,

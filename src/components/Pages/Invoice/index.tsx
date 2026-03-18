@@ -12,26 +12,27 @@ import InvoiceToolbar from "@/components/feature/Invoice/InvoiceToolbar";
 import { useSearchParams } from "next/navigation";
 import { useInvoiceSearch } from "@/hooks/invoices/useInvoiceSearch";
 import { sortInvoices } from "@/utils/sort";
+import { useInvoiceFilterStatus } from "@/hooks/invoices/useInvoiceFilterStatus";
+import { useMemo } from "react";
 const filteredInvoice = ["all", "paid", "unpaid", "overdue", "draft"];
 export default function InvoiceListPage() {
-  const {
-    statusFilter,
-    statusFilterSet,
-    sortField,
-    sortFieldSet,
-    sortOrder,
-    sortOrderSet,
-  } = useInvoiceStore();
+  const { sortField, sortFieldSet, sortOrder, sortOrderSet } =
+    useInvoiceStore();
   const searchParams = useSearchParams();
   const { searchValue, handleSearchChange } = useInvoiceSearch();
+  const { filterStatus, handleFilterStatusChange } = useInvoiceFilterStatus();
   const currentPage = Number(searchParams.get("page") ?? 1);
   const itemsPerPage = Number(searchParams.get("limit") ?? 2);
   const {
     data: invoices,
     isLoading,
     isError,
-  } = useInvoices(currentPage, itemsPerPage, searchValue, statusFilter);
-  console.log(currentPage);
+  } = useInvoices(currentPage, itemsPerPage, searchValue, filterStatus);
+
+  const sortedInvoices = useMemo(() => {
+    return sortInvoices(invoices?.data || [], sortField, sortOrder);
+  }, [invoices?.data, sortField, sortOrder]);
+
   if (isLoading) {
     return <LoadingState message="Loading get data invoice..." />;
   }
@@ -61,13 +62,8 @@ export default function InvoiceListPage() {
   };
 
   const handleStatusChange = (value: string) => {
-    statusFilterSet(value);
+    handleFilterStatusChange(value);
   };
-  const sortedInvoices = sortInvoices(
-    invoices?.data || [],
-    sortField,
-    sortOrder,
-  );
 
   return (
     <main className="space-y-6">
@@ -76,7 +72,7 @@ export default function InvoiceListPage() {
         filteredInvoice={filteredInvoice}
         searchQuery={searchValue}
         handleSearch={handleSearch}
-        statusFilter={statusFilter}
+        statusFilter={filterStatus}
         handleStatusChange={handleStatusChange}
       />
 

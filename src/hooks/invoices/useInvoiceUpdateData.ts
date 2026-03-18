@@ -1,6 +1,6 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { updateInvoice } from "@/services/invoices/update-invoice";
-import { Invoice } from "../../../types/api-types";
+import { Invoice } from "../../../types/data-types";
 import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
 

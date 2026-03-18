@@ -13,7 +13,7 @@ import { formatCurrency } from "@/utils/formatCurrency";
 import { ArrowUpDown } from "lucide-react";
 import Link from "next/link";
 import React from "react";
-import { Invoice } from "../../../../types/api-types";
+import { Invoice } from "../../../../types/data-types";
 
 export default function InvoiceTable({
   paginated,

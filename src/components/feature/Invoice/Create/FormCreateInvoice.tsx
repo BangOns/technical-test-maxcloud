@@ -12,8 +12,8 @@ import {
 } from "@/components/ui/card";
 import { Plus, Trash2 } from "lucide-react";
 import { useCustomers } from "@/hooks/customers/useCustomers";
-import { useCreateInvoice } from "@/hooks/invoices/useCreateInvoice";
-import { useFormCreateInvoice } from "@/hooks/invoices/useFormCreateInvoice";
+import { useCreateInvoice } from "@/hooks/invoices/useInvoiceCreateData";
+import { useFormCreateInvoice } from "@/hooks/invoices/useInvoiceFormCreate";
 import { InvoiceFormValues } from "@/schema/invoice.schema";
 import { Controller } from "react-hook-form";
 import { FieldError, FieldGroup, FieldLabel } from "@/components/ui/field";
@@ -70,6 +70,7 @@ export default function FormCreateInvoice() {
             </CardHeader>
             <CardContent className="space-y-4">
               <div className="grid gap-4 md:grid-cols-2">
+                {/* Customer */}
                 <Controller
                   control={control}
                   name="customer_id"
@@ -114,6 +115,7 @@ export default function FormCreateInvoice() {
                     );
                   }}
                 />
+                {/* Due Date */}
                 <Controller
                   control={control}
                   name="due_date"

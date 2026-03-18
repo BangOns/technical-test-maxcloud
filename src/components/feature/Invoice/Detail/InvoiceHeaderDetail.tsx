@@ -1,7 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { ArrowLeft, CheckCircle2, Download } from "lucide-react";
 import Link from "next/link";
-import { Invoice } from "../../../../../types/api-types";
+import { Invoice } from "../../../../../types/data-types";
 
 export default function InvoiceHeaderDetail({
   invoice,

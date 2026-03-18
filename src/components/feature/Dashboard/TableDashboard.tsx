@@ -12,7 +12,7 @@ import { buttonVariants } from "@/components/ui/button";
 import { ArrowRight } from "lucide-react";
 import { formatCurrency } from "@/utils/formatCurrency";
 import GetStatusBadge from "@/components/shared/StatusBadge";
-import { Invoice } from "../../../../types/api-types";
+import { Invoice } from "../../../../types/data-types";
 export default function TableDashboard({
   recentInvoices,
 }: {

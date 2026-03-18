@@ -18,7 +18,6 @@ import TableDashboard from "@/components/feature/Dashboard/TableDashboard";
 export default function Dashboard() {
   const { data: invoices, isLoading, isError } = useInvoices();
 
-  // Calculations
   const {
     totalInvoicesThisMonth,
     totalUnpaidAmount,
