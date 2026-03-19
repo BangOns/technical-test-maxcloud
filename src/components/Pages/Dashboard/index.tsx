@@ -60,7 +60,7 @@ export default function Dashboard() {
         <ProductCard
           title="Total Unpaid Amount"
           icon={<Clock className="h-4 w-4 text-yellow-500" />}
-          amount={totalUnpaidAmount}
+          amount={formatCurrency(totalUnpaidAmount)}
         />
 
         <ProductCard
@@ -72,7 +72,7 @@ export default function Dashboard() {
         <ProductCard
           title="Total Revenue"
           icon={<DollarSign className="h-4 w-4 text-zinc-500" />}
-          amount={formatCurrency(totalRevenue) as string}
+          amount={formatCurrency(totalRevenue)}
         />
       </div>
 
