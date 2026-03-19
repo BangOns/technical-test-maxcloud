@@ -19,7 +19,7 @@ export default function InvoiceToolbar({
   handleSearch: (value: string) => void;
   statusFilter: string;
   handleStatusChange: (value: string) => void;
-  filteredInvoice: string[];
+  filteredInvoice: ReadonlyArray<string>;
 }) {
   return (
     <section className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
