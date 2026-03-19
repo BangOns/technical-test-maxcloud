@@ -14,9 +14,9 @@ import LoadingState from "@/components/shared/LoadingState";
 import EmptyState from "@/components/shared/EmptyState";
 import Pagination from "@/components/shared/Pagination";
 
-import InvoiceHeader from "@/components/feature/Invoice/InvoiceHeader";
-import InvoiceToolbar from "@/components/feature/Invoice/InvoiceToolbar";
-import InvoiceTable from "@/components/feature/Invoice/InvoiceTable";
+import InvoiceHeader from "@/components/features/Invoice/InvoiceHeader";
+import InvoiceToolbar from "@/components/features/Invoice/InvoiceToolbar";
+import InvoiceTable from "@/components/features/Invoice/InvoiceTable";
 import { INVOICE_STATUS_OPTIONS } from "@/constants/invoice";
 
 export default function InvoiceListPage() {

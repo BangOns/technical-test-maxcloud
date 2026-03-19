@@ -5,12 +5,12 @@ import { useParams } from "next/navigation";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
 import { Customer, Invoice } from "../../../../../types/data-types";
-import InvoiceCustomerCard from "@/components/feature/Invoice/detail/InvoiceCustomerCard";
-import InvoiceSummaryCard from "@/components/feature/Invoice/detail/InvoiceSummaryCard";
-import InvoiceTableDetail from "@/components/feature/Invoice/detail/InvoiceTableDetail";
+import InvoiceCustomerCard from "@/components/features/Invoice/detail/InvoiceCustomerCard";
+import InvoiceSummaryCard from "@/components/features/Invoice/detail/InvoiceSummaryCard";
+import InvoiceTableDetail from "@/components/features/Invoice/detail/InvoiceTableDetail";
 import LoadingState from "@/components/shared/LoadingState";
 import EmptyState from "@/components/shared/EmptyState";
-import InvoiceHeaderDetail from "@/components/feature/Invoice/detail/InvoiceHeaderDetail";
+import InvoiceHeaderDetail from "@/components/features/Invoice/detail/InvoiceHeaderDetail";
 import { useInvoiceWithCustomer } from "@/hooks/invoices/queries/useInvoiceWithCustomer";
 import { useInvoiceDetailActions } from "@/hooks/invoices/ui/useInvoiceDetailAction";
 

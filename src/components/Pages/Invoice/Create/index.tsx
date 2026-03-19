@@ -1,7 +1,7 @@
 "use client";
 
 import PageHeader from "@/components/shared/PageHeader";
-import FormCreateInvoice from "@/components/feature/Invoice/create/FormCreateInvoice";
+import FormCreateInvoice from "@/components/features/Invoice/create/FormCreateInvoice";
 
 export default function CreateInvoicePage() {
   return (
