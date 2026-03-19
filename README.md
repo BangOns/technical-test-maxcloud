@@ -86,6 +86,11 @@ NEXT_PUBLIC_API_URL=http://localhost:3000
 * TanStack Query – Data fetching dan state management untuk API
 * React Hook Form - library untuk mengelola form
 * Zod – Validasi schema form
+* shadcn/ui – Komponen UI siap pakai berbasis Tailwind CSS
+* axios – HTTP client untuk request API (GET, POST, PUT, DELETE)
+* lucide-react – Icon library berbasis React
+* zustand – State management ringan untuk state global
+* chart.js – Library chart untuk menampilkan visualisasi data (grafik, chart, dll)
 
 ## Demo
 
