@@ -87,16 +87,10 @@ NEXT_PUBLIC_API_URL=http://localhost:3000
 * React Hook Form - library untuk mengelola form
 * Zod – Validasi schema form
 
-## Cara Contribution
+## Demo
 
-1. Fork repository
-2. Buat branch baru: `git checkout -b fitur-baru`
-3. Commit perubahan: `git commit -m "Tambah fitur X"`
-4. Push ke branch: `git push origin fitur-baru`
-5. Buat Pull Request
+Berikut Link Demo Web : [This Billing Me](https://technical-test-maxcloud.vercel.app)
 
 ## License
 
 MIT License © Syahroni
-
----
