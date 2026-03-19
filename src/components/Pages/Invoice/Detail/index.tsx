@@ -4,23 +4,24 @@ import { useParams } from "next/navigation";
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
-import { useUpdateInvoice } from "@/hooks/invoices/mutation/useUpdateInvoice";
-import { Customer } from "../../../../../types/data-types";
-import InvoiceCustomerCard from "@/components/feature/Invoice/Detail/InvoiceCustomerCard";
-import InvoiceSummaryCard from "@/components/feature/Invoice/Detail/InvoiceSummaryCard";
-import InvoiceTableDetail from "@/components/feature/Invoice/Detail/InvoiceTableDetail";
+import { Customer, Invoice } from "../../../../../types/data-types";
+import InvoiceCustomerCard from "@/components/features/Invoice/detail/InvoiceCustomerCard";
+import InvoiceSummaryCard from "@/components/features/Invoice/detail/InvoiceSummaryCard";
+import InvoiceTableDetail from "@/components/features/Invoice/detail/InvoiceTableDetail";
 import LoadingState from "@/components/shared/LoadingState";
 import EmptyState from "@/components/shared/EmptyState";
-import InvoiceHeaderDetail from "@/components/feature/Invoice/Detail/InvoiceHeaderDetail";
-import toast from "react-hot-toast";
+import InvoiceHeaderDetail from "@/components/features/Invoice/detail/InvoiceHeaderDetail";
 import { useInvoiceWithCustomer } from "@/hooks/invoices/queries/useInvoiceWithCustomer";
+import { useInvoiceDetailActions } from "@/hooks/invoices/ui/useInvoiceDetailAction";
 
 export default function InvoiceDetailPage() {
   const { id } = useParams<{ id: string }>();
 
   const { data, isLoading, isError } = useInvoiceWithCustomer(id);
 
-  const payMutation = useUpdateInvoice();
+  const { handlePay, handlePDF, isPending } = useInvoiceDetailActions(
+    data?.invoice as Invoice,
+  );
 
   if (isLoading) return <LoadingState message="Loading Data" />;
   if (isError || !data)
@@ -31,15 +32,13 @@ export default function InvoiceDetailPage() {
         description="Invoice not found"
       />
     );
-  function handlePDF() {
-    toast.success("Invoice downloaded successfully");
-  }
+
   return (
     <div className="space-y-6 max-w-5xl mx-auto">
       <InvoiceHeaderDetail
         invoice={data.invoice}
-        handlePayMutation={() => payMutation.mutate(data.invoice)}
-        statusPayMutation={payMutation.isPending}
+        handlePayMutation={handlePay}
+        statusPayMutation={isPending}
         handlePDF={handlePDF}
       />
 

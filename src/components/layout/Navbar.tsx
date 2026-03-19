@@ -1,5 +1,5 @@
-import Notification from "../feature/Navbar/Notification";
-import Profile from "../feature/Navbar/Profile";
+import Notification from "../features/Navbar/Notification";
+import Profile from "../features/Navbar/Profile";
 
 export function Navbar() {
   return (

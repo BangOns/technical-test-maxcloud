@@ -7,13 +7,13 @@ import { buttonVariants } from "@/components/ui/button";
 import { useInvoices } from "@/hooks/invoices/queries/useInvoices";
 import LoadingState from "@/components/shared/LoadingState";
 import Link from "next/link";
-import ProductCard from "@/components/feature/Dashboard/ProductCard";
+import ProductCard from "@/components/features/Dashboard/ProductCard";
 import EmptyState from "@/components/shared/EmptyState";
 import { formatCurrency } from "@/utils/formatCurrency";
-import DoughnutChart from "@/components/feature/Dashboard/DoughnutChart";
+import DoughnutChart from "@/components/features/Dashboard/DoughnutChart";
 import { calculateDashboardSummary } from "@/utils/calulateDashboardSummary";
 import PageHeader from "@/components/shared/PageHeader";
-import TableDashboard from "@/components/feature/Dashboard/TableDashboard";
+import TableDashboard from "@/components/features/Dashboard/TableDashboard";
 
 export default function Dashboard() {
   const { data: invoices, isLoading, isError } = useInvoices();

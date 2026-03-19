@@ -1,28 +1,36 @@
 "use client";
 
+import { useMemo, useCallback } from "react";
+import { useSearchParams } from "next/navigation";
+
 import { useInvoices } from "@/hooks/invoices/queries/useInvoices";
-import LoadingState from "@/components/shared/LoadingState";
-import EmptyState from "@/components/shared/EmptyState";
+import { useInvoiceSearch } from "@/hooks/invoices/ui/useInvoiceSearch";
+import { useInvoiceFilterStatus } from "@/hooks/invoices/ui/useInvoiceFilterStatus";
 import { useInvoiceStore } from "@/store/invoice-store";
 
-import Pagination from "@/components/shared/Pagination";
-import InvoiceTable from "@/components/feature/Invoice/InvoiceTable";
-import InvoiceHeader from "@/components/feature/Invoice/InvoiceHeader";
-import InvoiceToolbar from "@/components/feature/Invoice/InvoiceToolbar";
-import { useSearchParams } from "next/navigation";
-import { useInvoiceSearch } from "@/hooks/invoices/ui/useInvoiceSearch";
 import { sortInvoices } from "@/utils/sort";
-import { useInvoiceFilterStatus } from "@/hooks/invoices/ui/useInvoiceFilterStatus";
-import { useMemo } from "react";
-const filteredInvoice = ["all", "paid", "unpaid", "overdue", "draft"];
+
+import LoadingState from "@/components/shared/LoadingState";
+import EmptyState from "@/components/shared/EmptyState";
+import Pagination from "@/components/shared/Pagination";
+
+import InvoiceHeader from "@/components/features/Invoice/InvoiceHeader";
+import InvoiceToolbar from "@/components/features/Invoice/InvoiceToolbar";
+import InvoiceTable from "@/components/features/Invoice/InvoiceTable";
+import { INVOICE_STATUS_OPTIONS } from "@/constants/invoice";
+
 export default function InvoiceListPage() {
-  const { sortField, sortFieldSet, sortOrder, sortOrderSet } =
-    useInvoiceStore();
   const searchParams = useSearchParams();
+
+  const currentPage = Number(searchParams.get("page") ?? 1);
+  const itemsPerPage = Number(searchParams.get("limit") ?? 10);
+
   const { searchValue, handleSearchChange } = useInvoiceSearch();
   const { filterStatus, handleFilterStatusChange } = useInvoiceFilterStatus();
-  const currentPage = Number(searchParams.get("page") ?? 1);
-  const itemsPerPage = Number(searchParams.get("limit") ?? 2);
+
+  const { sortField, sortFieldSet, sortOrder, sortOrderSet } =
+    useInvoiceStore();
+
   const {
     data: invoices,
     isLoading,
@@ -30,8 +38,20 @@ export default function InvoiceListPage() {
   } = useInvoices(currentPage, itemsPerPage, searchValue, filterStatus);
 
   const sortedInvoices = useMemo(() => {
-    return sortInvoices(invoices?.data || [], sortField, sortOrder);
+    return sortInvoices(invoices?.data ?? [], sortField, sortOrder);
   }, [invoices?.data, sortField, sortOrder]);
+
+  const handleSort = useCallback(
+    (field: "id" | "amount" | "due_date") => {
+      if (sortField === field) {
+        sortOrderSet(sortOrder === "asc" ? "desc" : "asc");
+        return;
+      }
+      sortFieldSet(field);
+      sortOrderSet("asc");
+    },
+    [sortField, sortOrder, sortFieldSet, sortOrderSet],
+  );
 
   if (isLoading) {
     return <LoadingState message="Loading get data invoice..." />;
@@ -49,47 +69,30 @@ export default function InvoiceListPage() {
     );
   }
 
-  const handleSort = (field: "id" | "amount" | "due_date") => {
-    if (sortField === field) {
-      sortOrderSet(sortOrder === "asc" ? "desc" : "asc");
-    } else {
-      sortFieldSet(field);
-      sortOrderSet("asc");
-    }
-  };
-  const handleSearch = (value: string) => {
-    handleSearchChange(value);
-  };
-
-  const handleStatusChange = (value: string) => {
-    handleFilterStatusChange(value);
-  };
+  const meta = invoices?.meta;
 
   return (
     <main className="space-y-6">
       <InvoiceHeader />
+
       <InvoiceToolbar
-        filteredInvoice={filteredInvoice}
+        filteredInvoice={INVOICE_STATUS_OPTIONS}
         searchQuery={searchValue}
-        handleSearch={handleSearch}
+        handleSearch={handleSearchChange}
         statusFilter={filterStatus}
-        handleStatusChange={handleStatusChange}
+        handleStatusChange={handleFilterStatusChange}
       />
 
       <div className="rounded-md border border-zinc-200 bg-white shadow-sm overflow-hidden">
-        <InvoiceTable
-          paginated={sortedInvoices || []}
-          handleSort={handleSort}
-        />
+        <InvoiceTable paginated={sortedInvoices} handleSort={handleSort} />
 
-        {/* Pagination Controls */}
         <Pagination
           currentPage={currentPage}
-          totalPages={invoices?.meta.totalPages || 0}
+          totalPages={meta?.totalPages ?? 0}
           itemsPerPage={itemsPerPage}
-          totalItems={invoices?.meta.total || 0}
-          hasNextPage={invoices?.meta.hasNextPage || false}
-          hasPrevPage={invoices?.meta.hasPrevPage || false}
+          totalItems={meta?.total ?? 0}
+          hasNextPage={meta?.hasNextPage ?? false}
+          hasPrevPage={meta?.hasPrevPage ?? false}
         />
       </div>
     </main>

@@ -1,5 +1,6 @@
 import api from "@/lib/axios";
 import { getInvoiceById } from "./get-invoice-by-id";
+import { getCustomerById } from "@/services/customers/queries/get-customer-by-id";
 
 export const getInvoiceWithCustomer = async (id: string) => {
   const invoiceRes = await getInvoiceById(id);
@@ -7,10 +8,7 @@ export const getInvoiceWithCustomer = async (id: string) => {
   const invoice = invoiceRes;
 
   const [customer] = await Promise.all([
-    api.get(`/api/customers/${invoice.customer_id}`).then((res) => {
-      if (!res.status) throw new Error("Failed to fetch customer");
-      return res.data.data;
-    }),
+    await getCustomerById(invoice.customer_id),
   ]);
 
   return { invoice, customer };

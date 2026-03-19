@@ -27,7 +27,8 @@ import {
   SelectLabel,
 } from "@/components/ui/select";
 import { generateInvoiceId } from "@/utils/generateInvoiceId";
-const unit = ["days", "hours", "months", "years"];
+import { UNIT_OPTIONS } from "@/constants/invoice";
+
 export default function FormCreateInvoice() {
   const router = useRouter();
   const { handleSubmit, control, append, remove, fields, watch } =
@@ -228,7 +229,7 @@ export default function FormCreateInvoice() {
                           <SelectContent>
                             <SelectGroup>
                               <SelectLabel>Unit</SelectLabel>
-                              {unit.map((item, index) => {
+                              {UNIT_OPTIONS.map((item, index) => {
                                 return (
                                   <SelectItem key={index} value={item}>
                                     {item}
